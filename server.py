@@ -6,9 +6,12 @@ class MainHandler(web.RequestHandler):
         self.render("client.html")
 
 
-class SocketHandler(websocket.WebSocketHandler):
+users = []
 
+
+class SocketHandler(websocket.WebSocketHandler):
     def open(self):
+        users.append(self)
         print("连接成功")
 
     def on_connection_close(self):
@@ -16,13 +19,15 @@ class SocketHandler(websocket.WebSocketHandler):
 
     def on_message(self, message):
         print(message)
-        self.write_message(message)
+        for ws in users:
+            ws.write_message(message)
 
     def on_finish(self):
         print("finish")
 
     def on_close(self):
         print("连接关闭")
+        users.remove(self)
 
 
 application = web.Application([
