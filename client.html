@@ -5,6 +5,7 @@
 </head>
 <body>
 <div>
+    你的名字:<input type="text" id="name" title="你的名字"/><br>
     <button id="connect" type="button" onclick="connect()">连接</button>
     <button id="disconnect" type="button" onclick="disconnect()">断开连接</button>
     <br>
@@ -48,8 +49,9 @@
     }
 
     function send() {
+        var name = document.getElementById("name").value;
         var content = document.getElementById("content").value;
-        ws.send(content);
+        ws.send(name+":"+content);
     }
 
 
