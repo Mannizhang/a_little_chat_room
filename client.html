@@ -46,14 +46,17 @@
         $.ajax({
              type: "POST",
              url: "http://localhost:9999/register",
-             data: {
+             dataType:"json",//控制返回
+             contentType: "application/json",//上传
+             data:JSON.stringify({
                  "userName":document.getElementById("userName").value,
                  "password":document.getElementById("password").value
-             },
+             }),
              success: function (data) {
                  console.log(data);
-                 if(data=="ok"){
-                     alert("注册成功")
+                 _data = eval(data);
+                 if(data["code"] == 0){
+                     alert(data["msg"]);
                  }
              }
         });

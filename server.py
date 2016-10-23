@@ -1,5 +1,6 @@
-from tornado import websocket, web, ioloop
+from tornado import websocket, web, ioloop,escape
 import pymysql
+import json
 
 db = pymysql.connect("localhost", "root", "Ko007mysql.", "test", charset='utf8')
 
@@ -35,11 +36,13 @@ class SocketHandler(websocket.WebSocketHandler):
 
 class registerHandler(web.RequestHandler):
     def post(self):
-        userName = self.request.body_arguments["userName"][0].decode("utf-8")
-        password = self.request.body_arguments["password"][0].decode("utf-8")
-        insert_user(userName, password)
-        self.write("ok")
-
+        data = escape.json_decode(self.request.body)
+        # userName = self.request.body_arguments["userName"][0].decode("utf-8")
+        # password = self.request.body_arguments["password"][0].decode("utf-8")
+        insert_user(data["userName"], data["password"])
+        result = {"code":0,"msg":"注册成功"}
+        jsonString = json.dumps(result, ensure_ascii=False)
+        self.write(jsonString)
 
 class User(object):
     id = 0
