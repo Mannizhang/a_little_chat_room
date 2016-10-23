@@ -2,9 +2,17 @@
 <head>
     <meta charset="UTF-8">
     <title>聊天 Demo</title>
+    <script src="https://cdn.staticfile.org/jquery/3.1.1/jquery.min.js" type="text/javascript"></script>
 </head>
+
 <body>
 <div>
+    用户名:<input type="text" id="userName" title="用户名">
+     密码:<input type="text" id="password" title="密码">
+    <button id="login" type="button" onclick="login()">登录</button>
+    <button id="注册" type="button" onclick="registered()">注册</button>
+
+    <br>
     你的名字:<input type="text" id="name" title="你的名字"/><br>
     <button id="connect" type="button" onclick="connect()">连接</button>
     <button id="disconnect" type="button" onclick="disconnect()">断开连接</button>
@@ -17,6 +25,40 @@
     </ul>
 </div>
 <script>
+
+    function login(){
+        $.ajax({
+            type:"POST",
+            url:"http://localhost:9999/login",
+            data: {
+                "userName": document.getElementById("userName").value,
+                "password": document.getElementById("password").value
+            },
+            success:function (data) {
+                alert("登录成功");
+                console.log(data);
+            }
+        })
+
+    }
+
+    function registered(){
+        $.ajax({
+             type: "POST",
+             url: "http://localhost:9999/register",
+             data: {
+                 "userName":document.getElementById("userName").value,
+                 "password":document.getElementById("password").value
+             },
+             success: function (data) {
+                 console.log(data);
+                 if(data=="ok"){
+                     alert("注册成功")
+                 }
+             }
+        });
+    }
+
     var ws;
 
     function connect() {
