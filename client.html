@@ -1,9 +1,29 @@
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
-    <title>HelloWorld</title>
+    <title>聊天 Demo</title>
 </head>
 <body>
-Hello World
+<script>
+    ws = new WebSocket("ws://localhost:9999/ws");
+    ws.onopen = function () {
+        console.log("打开连接了");
+        ws.send("HelloWorld");
+    };
+
+    ws.onmessage = function (data) {
+        console.log(data.data)
+    };
+
+    ws.onclose = function () {
+        console.log("关闭连接")
+    };
+
+    ws.onerror = function () {
+        console.log("WebSocket错误。", "ERROR");
+    };
+
+
+</script>
 </body>
 </html>
