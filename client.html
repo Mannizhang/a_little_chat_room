@@ -10,6 +10,10 @@
     <br>
     <input type="text" id="content" title="内容"/>
     <button id="send" type="button" onclick="send()">发送</button>
+    <br>
+    <ul id="messageBoard">
+
+    </ul>
 </div>
 <script>
     var ws;
@@ -20,8 +24,14 @@
             console.log("打开连接了");
         };
 
-        ws.onmessage = function (data) {
-            console.log("接收到",data.data)
+        ws.onmessage = function (event) {
+            console.log("接收到", event.data);
+            var messages = document.getElementById("messageBoard");
+            var message = document.createElement('li');
+            var content = document.createTextNode(event.data);
+
+            message.appendChild(content);
+            messages.appendChild(message);
         };
 
         ws.onclose = function () {
